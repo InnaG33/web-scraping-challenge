@@ -1,6 +1,7 @@
 from splinter import Browser
 from bs4 import BeautifulSoup as bs
 import time
+import random
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
@@ -13,15 +14,15 @@ def init_browser():
 
 def scraper():
     browser = init_browser()
-
-    scraped_mars = []
-    articles = {}
+    sec = random.randint(1, 5)
+    i1 = random.randint(0, 39)
+    i2 = random.randint(0, 31)
 
     # Visit Mars News
     url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
     browser.visit(url)
 
-    time.sleep(2)
+    time.sleep(sec)
 
     # HTML object
     html = browser.html
@@ -29,98 +30,100 @@ def scraper():
     soup = bs(html, 'html.parser')
 
     # Retrieve all elements that contain articles information
-    infos = soup.find_all('div', class_="list_text")
+    info = soup.find_all('div', class_="list_text")
+    
+#    for info in infos:
+    try:
+        title = info[i1].find('a').text.strip()
+        paragraph = info[i1].find( class_='article_teaser_body').text.strip()
+    except IndexError:
+        title = info[0].find('a').text.strip()
+        paragraph = info[0].find( class_='article_teaser_body').text.strip()
+
+    url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars#submit'
+    browser.visit(url)
+
+    time.sleep(sec)
+
+#     HTML object
+    html = browser.html
+#  Parse HTML with Beautiful Soup
+    soup = bs(html, 'html.parser')
+
+#  Retrieve all elements that contain articles information
+    info = soup.find_all('div', class_="img")
+    try:
+        link = info[i2].find('img')
+    except IndexError:
+        link = info[0].find('img')
+
+    href = link['src']
+    img_link = 'https://www.jpl.nasa.gov' + href
+
+
+    mars_weather = []
+    url = 'https://twitter.com/marswxreport?lang=en'
+    browser.visit(url)
+    time.sleep(sec)
+
+    html = browser.html
+    # Parse HTML with Beautiful Soup
+    soup = bs(html, 'html.parser')
+
+    # Retrieve all elements that contain articles information
+    infos = soup.find_all('span', class_="css-901oao css-16my406 r-1qd0xha r-ad9z0x r-bcqeeo r-qvutc0")
+
+    for info in infos: 
+        weather = info.text.strip()
+        if (weather!="" and weather[0]=='I'):
+            post = weather[8:]
+            mars_weather.append(post)
+    
+    i3 = random.randint(0, (len(mars_weather)-1))      
+    found_mars_weather = mars_weather[i3]
+
+    mars_facts = {}
+
+    import pandas as pd
+    url = 'https://space-facts.com/mars/'
+    tables = pd.read_html(url)
+    mars_facts_df = tables[0]
+    mars_facts_df = mars_facts_df.rename(columns={0:"Parameter", 1:"Value"})
+    params = mars_facts_df['Parameter'].to_list()
+    values = mars_facts_df['Value'].to_list()
+
+    for i in range(len(params)):
+        mars_facts.update( {params[i] : values[i]} )
+   
+
+    hemisph_images = {}
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+    time.sleep(sec)
+
+    html = browser.html
+ # Parse HTML with Beautiful Soup
+    soup = bs(html, 'html.parser')
+
+ # Retrieve all elements that contain articles information
+    infos = soup.find_all('div', class_="item")
 
     for info in infos:
-        title = info.find('a').text.strip()
-        paragraph = info.find( class_='article_teaser_body').text.strip()
-        articles.update( {title : paragraph} )
-    # scraped_mars = {
-    #     "sloth_img": titles,
-    #     "min_temp": paragraphs,
-    # }
+        link = info.find('img')
+        href = link['src']
+        description = info.find('div', class_="description")
+        h3 = description.find('h3').text.strip()
+        hemisph_images.update( {h3 : 'https://astrogeology.usgs.gov' + href} )
     
-    for item in articles:
-        scraped_mars.append({"art_title":item, "art_paragraph":articles[item]})
+    scraped_mars = {
+        "titles": title,
+        "paragraphs": paragraph,
+        "featured_image_url": img_link,
+        "weather": found_mars_weather,
+        "mars_facts": mars_facts,
+        "hemisph_images": hemisph_images
+    }
     
-#     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars#submit'
-#     browser.visit(url)
-
-#     time.sleep(3)
-
-#     featured_image_urls = []
-#     # HTML object
-#     html = browser.html
-# # Parse HTML with Beautiful Soup
-#     soup = bs(html, 'html.parser')
-
-# # Retrieve all elements that contain articles information
-#     infos = soup.find_all('div', class_="img")
-
-#     for info in infos:
-#         link = info.find('img')
-#         href = link['src']
-#         featured_image_urls.append('https://www.jpl.nasa.gov' + href)
-
-#     for item in featured_image_urls:
-#         scraped_mars.append({"featured_image_url":item})
-
-#     mars_weather = []
-#     url = 'https://twitter.com/marswxreport?lang=en'
-#     browser.visit(url)
-#     time.sleep(4)
-
-#     html = browser.html
-#     # Parse HTML with Beautiful Soup
-#     soup = bs(html, 'html.parser')
-
-#     # Retrieve all elements that contain articles information
-#     infos = soup.find_all('span', class_="css-901oao css-16my406 r-1qd0xha r-ad9z0x r-bcqeeo r-qvutc0")
-
-#     for info in infos: 
-#         weather = info.text.strip()
-#         if (weather!="" and weather[0]=='I'):
-#             mars_weather.append(weather)
-
-#     for item in  mars_weather:
-#         scraped_mars.append({"mars_weather":item})
-    
-#     import pandas as pd
-#     url = 'https://space-facts.com/mars/'
-#     tables = pd.read_html(url)
-#     mars_facts_df = tables[0]
-#     mars_facts_df = mars_facts_df.rename(columns={0:"Parameter", 1:"Value"})
-
-#     params = mars_facts_df['Parameter'].to_list()
-#     values = mars_facts_df['Value'].to_list()
-
-#     for item in params:
-#         scraped_mars.append({"param":item})
-#     for item in values:
-#         scraped_mars.append({"prama_value":item})
-
-#     hemisph_images = {}
-#     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
-#     browser.visit(url)
-#     time.sleep(5)
-
-#     html = browser.html
-# # Parse HTML with Beautiful Soup
-#     soup = bs(html, 'html.parser')
-
-# # Retrieve all elements that contain articles information
-#     infos = soup.find_all('div', class_="item")
-
-#     for info in infos:
-#         link = info.find('img')
-#         href = link['src']
-#         description = info.find('div', class_="description")
-#         h3 = description.find('h3').text.strip()
-#         hemisph_images.update( {h3 : 'https://astrogeology.usgs.gov' + href} )
-    
-#     for item in hemisph_images:
-#         scraped_mars.append({"high_res_title":item, "high_res_img_url":hemisph_images[item]})
- 
     # Close the browser after scraping
     browser.quit()
 
