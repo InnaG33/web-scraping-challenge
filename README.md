@@ -10,12 +10,12 @@ This work presents an app construction that scrapes and presents latest posts ab
 
 The app is running about 40 seconds. The app is choosing random article from the latest articles posts from all found (typically 40); random featured space image of the planet surface from all found (typically 32) and random weather post from all found (typically 4). Hit "Scrape New Data" to see different posts.
 
-Some examples from the app runs:
-![Missions_to_Mars](screenshots/Mars_app_page_1_1.png)
+![Mars_app_page_1_1](Missions_to_Mars/screenshots/Mars_app_page_1_1.png)
 
-![Missions_to_Mars](screenshots/Mars_app_page_1_2.png)
+![Mars_app_page_1_2](Missions_to_Mars/screenshots/Mars_app_page_1_2.png)
 
-![Missions_to_Mars](screenshots/Mars_app_page_2_1.png)
+![Mars_app_page_2_1](Missions_to_Mars/screenshots/Mars_app_page_2_1.png)
+
 
 
 
