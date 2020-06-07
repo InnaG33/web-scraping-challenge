@@ -14,7 +14,7 @@ def init_browser():
 
 def scraper():
     browser = init_browser()
-    sec = random.randint(1, 5)
+    sec = random.randint(2, 7)
     i1 = random.randint(0, 39)
     i2 = random.randint(0, 31)
 
@@ -79,8 +79,11 @@ def scraper():
             post = weather[8:]
             mars_weather.append(post)
     
-    i3 = random.randint(0, (len(mars_weather)-1))      
-    found_mars_weather = mars_weather[i3]
+    i3 = random.randint(0, (len(mars_weather)-1)) 
+    try:    
+        found_mars_weather = mars_weather[i3]
+    except ValueError:
+        found_mars_weather="scrape one more time for weather post"
 
     mars_facts = {}
 
@@ -109,11 +112,24 @@ def scraper():
     infos = soup.find_all('div', class_="item")
 
     for info in infos:
-        link = info.find('img')
-        href = link['src']
         description = info.find('div', class_="description")
         h3 = description.find('h3').text.strip()
-        hemisph_images.update( {h3 : 'https://astrogeology.usgs.gov' + href} )
+        link = info.find('a')
+        href = link['href']
+    
+        url_full = 'https://astrogeology.usgs.gov' + href
+    
+        browser.visit(url_full)
+        time.sleep(2)
+    
+        html = browser.html
+        soup = bs(html, 'html.parser')
+    
+        info_image = soup.find_all('img', class_="wide-image")
+    
+        href_full =  info_image[0]['src']
+        hemisph_images.update( {h3 : 'https://astrogeology.usgs.gov' + href_full} )
+    
     
     scraped_mars = {
         "titles": title,

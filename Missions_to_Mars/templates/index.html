@@ -7,11 +7,11 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mars Facts</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 
 <body>
-  <style>
+<style>
   body {
   margin-top: 0px; 
   padding-top: 0px;  
@@ -50,8 +50,8 @@
   #hemis {
   margin-left: 10px;
   margin-right: 10px;
-  height: 240px;
-  width: 240px;
+  height: 400px;
+  width: 400px;
   }
   #display-1 {
     color: rgb(7, 1, 32);
@@ -82,14 +82,13 @@ td{
   text-align: left;
   color: rgb(0, 0, 0);
   font-size: 18px;
-}
+} 
 table, td {
   border: 1px solid rgb(111, 113, 114);
 }
-</style>
+</style> 
   <div class="container">
     <div class="row">
-      
       <div class="jumbotron text-center">
         <h1 id="missions">Missions to Mars</h1>
         <p><a class="btn btn-primary btn-lg" href="/scrape" role="button" id="newd">Scrape New Data</a></p>
@@ -107,7 +106,6 @@ table, td {
         <h2>Current Weather on Mars</h2>
         <p>{{ article.weather }}</p>
         <br>
-     
         <table border="1" class="dataframe" id="data">
           <thead>
             <tr style="text-align: right;">
@@ -128,17 +126,13 @@ table, td {
             {% endfor %}
           </tbody>
         </table>
-      </div>
-      </div>
-  
-      <h2>Mars Hemispheres Images</h2>
-      <hr class="my-4"> 
-
-       
+        </div>
+    </div>
+    <h2>Mars Hemispheres Images</h2>
+    <hr class="my-4"> 
     <div class="row">
-          
       {% for image in article.hemisph_images %}
-      <div class="col-md-3">
+      <div class="col-md-5">
         <img id="hemis" src="{{ article.hemisph_images[image] }}" alt="Sloth"/>
         <p id="display-1">{{ image }}</p>
       </div>

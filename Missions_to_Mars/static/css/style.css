@@ -1,26 +1,9 @@
-/* .jumbotron {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px;
-    background: rgb(3, 9, 34);
-    color: rgb(107, 235, 192)
-  }
-.container {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 30px;
-    background: rgb(249, 252, 215);
-  }
-p {
-    color:rgb(3, 9, 34);
-    font-size: 24px;
-  } */
 /* 
   body {
-    margin-top: 0px; 
-    padding-top: 0px;  
-    background: rgb(158, 157, 157);
-    background: url('https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/mars_odyssey_2.jpg')
+  margin-top: 0px; 
+  padding-top: 0px;  
+  background: rgb(158, 157, 157);
+  background: url('https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/mars_odyssey_2.jpg')
   }
   .jumbotron {
   margin-top: 10px;
@@ -37,7 +20,7 @@ p {
   }
   p {
     color:rgb(3, 9, 34);
-    font-size: 20px;
+    font-size: 16px;
   }
   #newd {
     background: rgb(250, 239, 136);
@@ -46,7 +29,7 @@ p {
     border-color: rgb(4, 1, 19);
     border-width: 2px;
     border-radius: 20px;
-    box-shadow: 5px 5px 5px rgb(44, 36, 36);
+    box-shadow: 7px 7px 5px rgb(44, 36, 36);
   }
   #missions {
     font-size: 50px;
@@ -54,22 +37,29 @@ p {
   #hemis {
   margin-left: 10px;
   margin-right: 10px;
-/*  float: left; */
-  height: 250px;
-  width: 250px;
-}
+  height: 240px;
+  width: 240px;
+  }
+  #display-1 {
+    color: rgb(7, 1, 32);
+    font-size: 16px;
+    font-weight: bold;
+  }
   h2 {
     font-size: 24px;
+    color: rgb(25, 8, 99);
   }
   h3 {
-    font-size: 22px;
+    font-size: 20px;
+    color: rgb(165, 20, 40);
+ 
   }
   th{
-  text-align: center;
+  text-align: left;
   font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;
-  color: rgb(25, 8, 99);
+  color: rgb(92, 12, 21);
   border: 1px solid rgb(5, 5, 5);
   font-size: 18px;
 }
@@ -79,9 +69,6 @@ td{
   text-align: left;
   color: rgb(0, 0, 0);
   font-size: 18px;
-}
-table, td {
-  border: 1px solid rgb(111, 113, 114);
 } */
 
 
